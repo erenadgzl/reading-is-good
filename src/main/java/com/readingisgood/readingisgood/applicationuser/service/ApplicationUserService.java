@@ -47,17 +47,6 @@ public class ApplicationUserService {
         return user;
     }
 
-    public ApplicationUserResponse applicationUserConvertToApplicationUserResponse(ApplicationUser applicationUser){
-        ApplicationUserResponse userResponse = new ApplicationUserResponse();
-        userResponse.setId(applicationUser.getId());
-        userResponse.setName(applicationUser.getName());
-        userResponse.setSurname(applicationUser.getSurname());
-        userResponse.setUsername(applicationUser.getUsername());
-        userResponse.setEmail(applicationUser.getEmail());
-        userResponse.setAddress(applicationUser.getAddress());
-        return userResponse;
-    }
-
     public ApplicationUser findByEmailOrUsername(String user) {
         return applicationUserRepository.findByEmailOrUsername(user);
     }
