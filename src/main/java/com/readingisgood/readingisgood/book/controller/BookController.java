@@ -34,6 +34,7 @@ public class BookController extends BaseController {
             @ApiResponse(code = 401, message = "not authorized!"),
             @ApiResponse(code = 403, message = "forbidden!!!"),
             @ApiResponse(code = 404, message = "not found!!!") })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity save(@Valid @RequestBody BookDto bookDto) {
         bookService.save(bookDto);
         return new ResponseEntity<>(getGenericApiResponse(bookDto), HttpStatus.CREATED);
@@ -46,6 +47,7 @@ public class BookController extends BaseController {
             @ApiResponse(code = 403, message = "forbidden!!!"),
             @ApiResponse(code = 404, message = "not found!!!") })
     @PutMapping("/update")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity update(@RequestParam(name = "id") Long id,
                                  @Valid @RequestBody BookDto bookDto) {
         bookService.update(bookDto, id);
