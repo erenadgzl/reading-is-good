@@ -5,18 +5,20 @@ import com.readingisgood.readingisgood.applicationuser.model.ApplicationUserResp
 import com.readingisgood.readingisgood.applicationuser.entity.ApplicationUser;
 import com.readingisgood.readingisgood.applicationuser.entity.Role;
 import com.readingisgood.readingisgood.applicationuser.repository.ApplicationUserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.PostLoad;
 
 @Service
 public class ApplicationUserService {
 
     private ApplicationUserRepository applicationUserRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
+    public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public ApplicationUser save(ApplicationUserDto applicationUserDto){
@@ -66,7 +68,7 @@ public class ApplicationUserService {
         applicationUser.setName("AdminTest");
         applicationUser.setSurname("Admin");
         applicationUser.setEmail("admin@gmail.com");
-        applicationUser.setPassword("Admin123!");
+        applicationUser.setPassword(bCryptPasswordEncoder.encode("Admin123!"));
         applicationUser.setRole(Role.ROLE_ADMIN);
         applicationUser.setUsername("admintest");
         applicationUserRepository.save(applicationUser);

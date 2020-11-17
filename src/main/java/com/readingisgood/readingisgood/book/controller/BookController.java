@@ -3,6 +3,7 @@ package com.readingisgood.readingisgood.book.controller;
 import com.readingisgood.readingisgood.base.controller.BaseController;
 import com.readingisgood.readingisgood.book.model.BookDto;
 import com.readingisgood.readingisgood.book.service.BookService;
+import com.readingisgood.readingisgood.order.model.OrderResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -52,5 +54,16 @@ public class BookController extends BaseController {
                                  @Valid @RequestBody BookDto bookDto) {
         bookService.update(bookDto, id);
         return new ResponseEntity<>(getGenericApiResponse(bookDto), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Get All Book List")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success|OK"),
+            @ApiResponse(code = 401, message = "not authorized!"),
+            @ApiResponse(code = 403, message = "forbidden!!!"),
+            @ApiResponse(code = 404, message = "not found!!!") })
+    @GetMapping("/all")
+    public ResponseEntity findAll(){
+        return new ResponseEntity<>(getGenericApiResponse(bookService.findAll()), HttpStatus.OK);
     }
 }
